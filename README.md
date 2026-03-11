@@ -85,26 +85,6 @@ tamamen bağımsız (standalone) Windows CLI uygulaması.**
 | 🧹 **Temiz Kaldırma** | Tek menüden tam uninstall — bilgisayarda iz bırakmaz |
 | 📦 **Standalone** | Node.js, Python, ffmpeg kurulumu **gerekmez** |
 
----
-
-## 🗂 Proje Yapısı
-
-```
-VideoDownloadManager/
-├── download.js          ← Ana uygulama (tek dosyada ~590 satır)
-├── package.json         ← Proje yapılandırması + pkg build ayarları
-├── package-lock.json    ← Bağımlılık kilidi (reproducible build)
-├── build.bat            ← Exe derleme yardımcı scripti
-├── .gitignore
-├── LICENSE
-└── README.md
-```
-
-> **Çalışma zamanı oluşturulan klasör:**
-```
-├── yardimci-araclar/    ← Otomatik oluşur (ffmpeg, ffprobe, yt-dlp)
-```
-
 
 ## 🔒 Nasıl Çalışır?
 
