@@ -1,0 +1,36 @@
+# ─── Bağımlılıklar ───────────────────────────
+node_modules/
+
+# ─── Build çıktısı ───────────────────────────
+dist/
+
+# ─── Binary araçlar (indirilen / büyük dosyalar) ─
+yt-dlp.exe
+yardimci-araclar/
+ffmpeg.exe
+ffprobe.exe
+
+# ─── İndirilen videolar ───────────────────────
+*.mp4
+*.webm
+*.mkv
+*.avi
+*.mov
+*.flv
+*.m4v
+*.ts
+*.part
+
+# ─── npm lock (opsiyonel, tercihe göre kaldırılabilir) ─
+# package-lock.json
+
+# ─── İşletim sistemi dosyaları ───────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE / Editor ────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user

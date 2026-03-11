@@ -1,0 +1,31 @@
+{
+  "name": "altayvideo",
+  "version": "1.0.0",
+  "description": "YouTube ve 1000+ siteden video indiren standalone Windows CLI uygulaması.",
+  "main": "download.js",
+  "scripts": {
+    "start": "node download.js",
+    "build": "npx pkg . --out-path dist"
+  },
+  "bin": "download.js",
+  "pkg": {
+    "assets": [
+      "yt-dlp.exe",
+      "node_modules/ffmpeg-static/ffmpeg.exe",
+      "node_modules/ffprobe-static/bin/win32/x64/ffprobe.exe"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ]
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  }
+}
