@@ -239,43 +239,56 @@ async function selectFormatAndQuality() {
 }
 
 // Build a codec-compatible yt-dlp format string for the chosen container.
-// MP4  → prefers H.264 video + AAC audio (native mp4 codecs)
-// WebM → prefers VP9/AV1 video + Opus audio (native webm codecs)
-// MKV  → accepts any codec (most flexible container)
+// Strategy: giderek gevşeyen fallback zinciri — her adımda hem video hem ses
+// garantilenmeye çalışılır. Hiçbir codec kısıtlaması uymasa bile son fallback
+// her zaman `bestvideo+bestaudio` veya `best` ile tamamlanır.
 function buildFormatString(height, container) {
     const h = height ? `[height<=${height}]` : '';
 
     if (container === 'mp4') {
+        // YouTube artık ses akışını çoğunlukla webm/opus olarak gönderiyor.
+        // Bu nedenle m4a zorunluluğunu kaldırıp `bestaudio` kullanıyoruz;
+        // ffmpeg mp4 container'ına yazarken sesi otomatik aac'ye dönüştürür.
         return [
-            // 1st choice: native mp4 streams (h264 + aac) — no re-encoding needed
-            `bestvideo[ext=mp4]${h}+bestaudio[ext=m4a]`,
-            // 2nd choice: h264 video + any compatible audio
-            `bestvideo[vcodec^=avc1]${h}+bestaudio[acodec^=mp4a]`,
-            // 3rd choice: any video + any audio (ffmpeg will re-encode if needed)
+            // 1. Tercih: h264 video + m4a ses (tam native mp4, re-encode yok)
+            `bestvideo[ext=mp4]${h}[vcodec^=avc]+bestaudio[ext=m4a]`,
+            // 2. Tercih: h264 video + herhangi bir ses (ffmpeg codec'i düzeltir)
+            `bestvideo[ext=mp4]${h}[vcodec^=avc]+bestaudio`,
+            // 3. Tercih: herhangi bir mp4 video + herhangi bir ses
+            `bestvideo[ext=mp4]${h}+bestaudio`,
+            // 4. Tercih: kalite sınırlı herhangi bir video + herhangi bir ses
             `bestvideo${h}+bestaudio`,
-            // Fallback: pre-merged stream
+            // 5. Son çare: hepsi birleşik akış
             `best${h}`,
+            `best`,
         ].join('/');
     }
 
     if (container === 'webm') {
+        // WebM için vp9/av1 + opus tercih edilir ama zorunlu değil.
+        // Opus yoksa ffmpeg webm container'a yazarken sesi dönüştürür.
         return [
-            // 1st choice: native webm streams (vp9 + opus)
-            `bestvideo[ext=webm]${h}+bestaudio[ext=webm]`,
-            // 2nd choice: vp9/av1 video + opus audio
-            `bestvideo[vcodec^=vp]${h}+bestaudio[acodec=opus]`,
-            // 3rd choice: any webm video + any audio
+            // 1. Tercih: native webm video + webm/opus ses
+            `bestvideo[ext=webm]${h}[vcodec^=vp]+bestaudio[ext=webm]`,
+            // 2. Tercih: herhangi bir webm video + herhangi bir ses
             `bestvideo[ext=webm]${h}+bestaudio`,
-            // 4th choice: any video + any audio
+            // 3. Tercih: vp9/av1 video + herhangi bir ses
+            `bestvideo[vcodec^=vp]${h}+bestaudio`,
+            // 4. Tercih: av1 video + herhangi bir ses
+            `bestvideo[vcodec^=av01]${h}+bestaudio`,
+            // 5. Tercih: kalite sınırlı herhangi bir video + herhangi bir ses
             `bestvideo${h}+bestaudio`,
+            // 6. Son çare: hepsi birleşik akış
             `best${h}`,
+            `best`,
         ].join('/');
     }
 
-    // MKV: accepts any codec, just pick the best quality
+    // MKV: en esnek container — codec kısıtlaması yok, kalite önce gelir
     return [
         `bestvideo${h}+bestaudio`,
         `best${h}`,
+        `best`,
     ].join('/');
 }
 
@@ -359,7 +372,18 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         '-f', formatStr,
         '--no-mtime',
         '--windows-filenames',
+        // Birden fazla ses/video akışının doğru seçilmesi için:
+        '--audio-multistreams',
+        '--video-multistreams',
+        // Ağ hataları için otomatik yeniden deneme:
+        '--retries', '5',
+        '--fragment-retries', '5',
     ];
+
+    // MP4 seçildiğinde ses codec'ini AAC'ye zorla (webm/opus ses varsa ffmpeg dönüştürür)
+    if (container === 'mp4') {
+        args.push('--postprocessor-args', 'ffmpeg:-c:v copy -c:a aac -strict experimental');
+    }
 
     if (!isPlaylist) args.push('--no-playlist');
     else args.push('--yes-playlist');

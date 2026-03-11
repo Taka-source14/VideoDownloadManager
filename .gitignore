@@ -34,3 +34,9 @@ desktop.ini
 .idea/
 *.suo
 *.user
+
+# Derleme yardýmcýsý (lokal kullaným için)
+build.bat
+
+# npm lock (lokal)
+package-lock.json
