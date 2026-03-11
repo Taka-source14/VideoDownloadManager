@@ -1,91 +1,228 @@
-# 🎬 Altai Video Downloader — Kullanım Kılavuzu
+<div align="center">
 
-YouTube, TikTok, Instagram, Twitter ve 1000+ platformdan video indiren, tamamen bağımsız (standalone) bir Windows CLI uygulaması.
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=30&pause=1000&color=00B4FF&center=true&vCenter=true&width=600&lines=🎬+Altai+Video+Downloader;YouTube+%E2%80%A2+TikTok+%E2%80%A2+Instagram+%26+1000%2B" alt="Typing SVG" />
+
+<br/>
+
+[![Release](https://img.shields.io/github/v/release/Taka-source14/VideoDownloadManager?style=for-the-badge&color=00B4FF&label=Son+Sürüm)](https://github.com/Taka-source14/VideoDownloadManager/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Taka-source14/VideoDownloadManager/total?style=for-the-badge&color=00cc66&label=İndirme)](https://github.com/Taka-source14/VideoDownloadManager/releases)
+[![License](https://img.shields.io/github/license/Taka-source14/VideoDownloadManager?style=for-the-badge&color=yellow)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows)](https://github.com/Taka-source14/VideoDownloadManager/releases/latest)
+
+<br/>
+
+**YouTube, TikTok, Instagram, Twitter/X ve 1000+ platformdan video indiren,  
+tamamen bağımsız (standalone) Windows CLI uygulaması.**
+
+*Kurulum yok · Bağımlılık yok · Tek .exe dosyası*
+
+</div>
 
 ---
 
-## ⚡ Hemen İndir
+## ⚡ Hızlı Başlangıç
 
-[Releases](https://github.com/Taka-source14/altayvideo/releases) sayfasından `altayvideo.exe` dosyasını indirip istediğiniz bir klasöre koyun — kurulum gerekmez.
+### 1. İndir
+
+<div align="center">
+
+[**📥 altayvideo.exe İndir (Son Sürüm)**](https://github.com/Taka-source14/VideoDownloadManager/releases/latest)
+
+</div>
+
+1. Yukarıdaki bağlantıdan `altayvideo.exe` dosyasını indirin
+2. İstediğiniz bir klasöre koyun
+3. Çift tıklayın — başka bir şey gerekmez
+
+> **Not:** Windows Defender "bilinmeyen yayıncı" uyarısı verebilir → "Yine de çalıştır" deyin.  
+> Bu, tüm `pkg` ile derlenmiş uygulamalarda normaldir. Kaynak kodu bu repoda tam olarak mevcuttur.
 
 ---
 
-## 🚀 Adım Adım Kullanım
+## 🎬 Ekran Görüntüsü
 
-### 1. Programı Çalıştırın
+```
+  ██╗   ██╗██╗██████╗ ███████╗ ██████╗
+  ██║   ██║██║██╔══██╗██╔════╝██╔═══██╗
+  ██║   ██║██║██║  ██║█████╗  ██║   ██║
+  ╚██╗ ██╔╝██║██║  ██║██╔══╝  ██║   ██║
+   ╚████╔╝ ██║██████╔╝███████╗╚██████╔╝
+    ╚═══╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝
 
-`altayvideo.exe` dosyasına çift tıklayın. Renkli ana menü açılacaktır.
+  ██████╗  ██████╗ ██╗    ██╗███╗   ██╗██╗      ██████╗  █████╗ ██████╗
+ ██╔══██╗██╔═══██╗██║    ██║████╗  ██║██║     ██╔═══██╗██╔══██╗██╔══██╗
+ ██║  ██║██║   ██║██║ █╗ ██║██╔██╗ ██║██║     ██║   ██║███████║██║  ██║
+ ██║  ██║██║   ██║██║███╗██║██║╚██╗██║██║     ██║   ██║██╔══██║██║  ██║
+ ██████╔╝╚██████╔╝╚███╔███╔╝██║ ╚████║███████╗╚██████╔╝██║  ██║██████╔╝
+ ╚═════╝  ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝
 
-### 2. Video İndirme
+  YouTube • TikTok • Instagram • Twitter • Vimeo • 1000+ Platform
+  Powered by yt-dlp + ffmpeg | Altai Squad Edition
 
-- Menüden `1` seçin → Video İndir
-- URL'yi yapıştırın (YouTube, TikTok, Instagram, Twitter vb.)
-- Format seçin: **MP4** / WebM / MKV
-- Kalite seçin: 360p / 480p / **720p** / 1080p / 4K / En İyi
-- İndirme konumunu seçin (program yanı, Masaüstü, İndirilenler veya özel)
-- İndirme ilerlemesini canlı takip edin: `İndiriliyor: 45.2% ⚡ 3.1MiB/s ⏱ ETA 00:22`
+  Lütfen bir işlem seçin:
 
-### 3. Playlist İndirme
+  1)  🎬  Tekli Video İndir
+  2)  📋  Playlist İndir
+  3)  🔍  Video Bilgisi Göster
+  4)  🧹  Sistem Temizliği (Uninstall)
+  5)  🚪  Çıkış
+```
 
-- Menüden `2` seçin → Playlist İndir
-- YouTube playlist veya kanal URL'si girin → format ve kalite seçin → tüm videolar indirilir
+---
 
-### 4. Video Bilgisi Göster
+## ✨ Özellikler
 
-- Menüden `3` seçin → URL girin
-- İndirme yapmadan: Başlık, Kanal, Süre, İzlenme sayısı, Mevcut kaliteler görüntülenir
+| Özellik | Detay |
+|---|---|
+| 🌍 **1000+ Platform** | YouTube, TikTok, Instagram, Twitter/X, Facebook, Vimeo, Dailymotion, Reddit, Twitch ve daha fazlası |
+| 🎞 **3 Format** | MP4 · WebM · MKV |
+| 📐 **7 Kalite** | 360p · 480p · 720p · 1080p · 1440p · 4K · En İyi |
+| 📋 **Playlist** | Tüm playlist'i tek seferde indir |
+| 🔍 **Video Bilgisi** | İndirmeden önce başlık, kanal, süre, izlenme ve mevcut kaliteleri görüntüle |
+| 📁 **Konum Seçimi** | Program yanı · Masaüstü · İndirilenler · Özel klasör |
+| 🚀 **Canlı İlerleme** | `İndiriliyor: 73.4%  ⚡ 4.2MiB/s  ⏱ ETA 00:18` |
+| 🔧 **Codec Uyumu** | MP4→H.264+AAC · WebM→VP9+Opus · MKV→Her codec |
+| 🧹 **Temiz Kaldırma** | Tek menüden tam uninstall — bilgisayarda iz bırakmaz |
+| 📦 **Standalone** | Node.js, Python, ffmpeg kurulumu **gerekmez** |
 
-### 5. Sistem Temizliği (Uninstall)
+---
 
-- Menüden `4` seçin → `e` ile onaylayın
-- `yardimci-araclar/` klasörü + video dosyaları silinir
-- Geriye kalan `.exe` dosyasını da sildiğinizde bilgisayarınızda hiçbir iz kalmaz
+## 🗂 Proje Yapısı
+
+```
+VideoDownloadManager/
+├── download.js          ← Ana uygulama (tek dosyada ~590 satır)
+├── package.json         ← Proje yapılandırması + pkg build ayarları
+├── package-lock.json    ← Bağımlılık kilidi (reproducible build)
+├── build.bat            ← Exe derleme yardımcı scripti
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+> **Çalışma zamanı oluşturulan klasör:**
+```
+├── yardimci-araclar/    ← Otomatik oluşur (ffmpeg, ffprobe, yt-dlp)
+```
+
+---
+
+## 🛠 Geliştirici — Kaynaktan Derleme
+
+### Gereksinimler
+- [Node.js 18+](https://nodejs.org)
+- İnternet bağlantısı (yt-dlp.exe ilk build'de otomatik indirilir)
+
+### Adımlar
+
+```bash
+# 1. Repoyu klonla
+git clone https://github.com/Taka-source14/VideoDownloadManager.git
+cd VideoDownloadManager
+
+# 2. Bağımlılıkları kur
+npm install
+
+# 3. Geliştirme — direkt çalıştır
+node download.js
+
+# 4. Üretim — exe olarak derle
+build.bat
+# veya manuel:
+# powershell -Command "Invoke-WebRequest -Uri 'https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe' -OutFile 'yt-dlp.exe'"
+# npx pkg . --out-path dist
+```
+
+`dist/altayvideo.exe` oluşacaktır (~200 MB, Node.js runtime dahil).
+
+### Kullanılan Bağımlılıklar
+
+| Paket | Versiyon | Açıklama |
+|---|---|---|
+| [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static) | ^5.3.0 | Gömülü FFmpeg binary |
+| [ffprobe-static](https://www.npmjs.com/package/ffprobe-static) | ^3.1.0 | Gömülü FFprobe binary |
+| [pkg](https://www.npmjs.com/package/pkg) (dev) | ^5.8.1 | Node.js → .exe derleyici |
+| [yt-dlp](https://github.com/yt-dlp/yt-dlp) | Latest | Video indirme motoru (runtime) |
+
+---
+
+## 🔒 Nasıl Çalışır?
+
+```
+altayvideo.exe başlar
+        │
+        ▼
+yardimci-araclar/ klasörü oluşturulur
+ffmpeg.exe + ffprobe.exe oraya kopyalanır
+yt-dlp.exe yoksa GitHub'dan otomatik indirilir
+        │
+        ▼
+Kullanıcı menüsü → URL gir → Format + Kalite seç
+        │
+        ▼
+yt-dlp, seçilen platforma istek atar
+Ayrı video + audio stream indirir
+ffmpeg ile birleştirir (codec-uyumlu)
+        │
+        ▼
+Seçilen klasöre .mp4 / .webm / .mkv kaydedilir
+```
 
 ---
 
 ## 🌍 Desteklenen Platformlar
 
-| Platform | Durum |
-|---|---|
-| YouTube | ✅ Video + Playlist + Shorts |
-| TikTok | ✅ |
-| Instagram | ✅ Reel + Video + IGTV |
-| Twitter / X | ✅ |
-| Facebook | ✅ |
-| Vimeo | ✅ |
-| Dailymotion | ✅ |
-| Reddit | ✅ |
-| Twitch | ✅ VOD |
-| 1000+ site | ✅ yt-dlp destekli |
+<details>
+<summary>Tüm listeyi göster (seçilen örnekler)</summary>
+
+| Platform | Durum | Not |
+|---|---|---|
+| YouTube | ✅ | Video · Shorts · Playlist · Kanal |
+| TikTok | ✅ | Watermark'sız |
+| Instagram | ✅ | Reel · Post · IGTV |
+| Twitter / X | ✅ | |
+| Facebook | ✅ | |
+| Vimeo | ✅ | |
+| Dailymotion | ✅ | |
+| Reddit | ✅ | |
+| Twitch | ✅ | VOD |
+| Pinterest | ✅ | |
+| **1000+ site** | ✅ | [yt-dlp desteklenen siteler](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) |
+
+</details>
 
 ---
 
-## 🛠 Bilmeniz Gerekenler
+## ❓ Sık Sorulan Sorular
 
-- **İlk açılışta** program yanında `yardimci-araclar/` klasörü oluşur (ffmpeg, ffprobe, yt-dlp).
-- **yt-dlp.exe** eksikse program otomatik olarak GitHub'dan indirir.
-- İndirilen videolar seçtiğiniz klasöre kaydedilir.
-- Windows Defender uyarısı görebilirsiniz — bu `pkg` ile derlenen tüm uygulamalarda normaldir; kodu inceleyebilirsiniz.
+**Windows Defender uyarı veriyor, virüs mü?**  
+Hayır. `pkg` ile derlenen tüm Node.js uygulamaları bu uyarıyı alır çünkü Node.js runtime'ı exe'ye gömülü gelir ve imzalanmamıştır. Tüm kaynak kodu bu repoda açık olarak mevcuttur, inceleyebilirsiniz.
+
+**Neden 200MB?**  
+Node.js runtime (~90MB) + ffmpeg (~120MB) + uygulama kodu exe içinde gömülüdür. Kullanıcı bilgisayarına ek kurulum gerekmez.
+
+**Playlist indirirken hata alıyorum?**  
+Üye-yalnızca (members-only) veya özel içerikler indirilemez. Herkese açık playlist'lerde sorun yaşanmamalıdır.
+
+**yt-dlp neden ayrı bir dosya?**  
+yt-dlp çok sık güncelleniyor (YouTube API değişiklikleri). Ayrı tutularak `.exe`'yi yeniden derlemeden güncellenebilir.
 
 ---
 
-## 🔨 Geliştirici: Kaynak Koddan Build
+## 📄 Lisans
 
-```bat
-# Gereksinimler: Node.js 18+
-git clone https://github.com/Taka-source14/altayvideo
-cd altayvideo
-build.bat
+Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
+
+```
+Copyright (c) 2026 Taka-source14 / Altai Squad
 ```
 
-`dist/altayvideo.exe` oluşacaktır.
-
 ---
 
-## 🛡️ Gizlilik
+<div align="center">
 
-Program hiçbir veriyi dışarı göndermez. İnternet bağlantısı yalnızca video indirmek ve (opsiyonel) yt-dlp.exe güncellemek için kullanılır.
+**Altai Squad tarafından ❤️ ile yapıldı**
 
----
+[⭐ Star](https://github.com/Taka-source14/VideoDownloadManager) · [🐛 Sorun Bildir](https://github.com/Taka-source14/VideoDownloadManager/issues) · [📥 İndir](https://github.com/Taka-source14/VideoDownloadManager/releases/latest)
 
-*Altai Squad tarafından sevgiyle yapılmıştır* 🎬
+</div>
