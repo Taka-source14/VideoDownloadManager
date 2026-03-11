@@ -105,46 +105,6 @@ VideoDownloadManager/
 ├── yardimci-araclar/    ← Otomatik oluşur (ffmpeg, ffprobe, yt-dlp)
 ```
 
----
-
-## 🛠 Geliştirici — Kaynaktan Derleme
-
-### Gereksinimler
-- [Node.js 18+](https://nodejs.org)
-- İnternet bağlantısı (yt-dlp.exe ilk build'de otomatik indirilir)
-
-### Adımlar
-
-```bash
-# 1. Repoyu klonla
-git clone https://github.com/Taka-source14/VideoDownloadManager.git
-cd VideoDownloadManager
-
-# 2. Bağımlılıkları kur
-npm install
-
-# 3. Geliştirme — direkt çalıştır
-node download.js
-
-# 4. Üretim — exe olarak derle
-build.bat
-# veya manuel:
-# powershell -Command "Invoke-WebRequest -Uri 'https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe' -OutFile 'yt-dlp.exe'"
-# npx pkg . --out-path dist
-```
-
-`dist/altayvideo.exe` oluşacaktır (~200 MB, Node.js runtime dahil).
-
-### Kullanılan Bağımlılıklar
-
-| Paket | Versiyon | Açıklama |
-|---|---|---|
-| [ffmpeg-static](https://www.npmjs.com/package/ffmpeg-static) | ^5.3.0 | Gömülü FFmpeg binary |
-| [ffprobe-static](https://www.npmjs.com/package/ffprobe-static) | ^3.1.0 | Gömülü FFprobe binary |
-| [pkg](https://www.npmjs.com/package/pkg) (dev) | ^5.8.1 | Node.js → .exe derleyici |
-| [yt-dlp](https://github.com/yt-dlp/yt-dlp) | Latest | Video indirme motoru (runtime) |
-
----
 
 ## 🔒 Nasıl Çalışır?
 
