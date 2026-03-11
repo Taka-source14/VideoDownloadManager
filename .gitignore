@@ -40,3 +40,5 @@ build.bat
 
 # npm lock (lokal)
 package-lock.json
+
+Claude.md
