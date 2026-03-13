@@ -374,7 +374,7 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         '--audio-multistreams',
         '--video-multistreams',
         // Takılmaları önlemek için akıcı başlatma ve ses senkronizasyonu:
-        '--ffmpeg-params', '-movflags +faststart -async 1',
+        '--postprocessor-args', 'ffmpeg:-movflags +faststart -async 1',
         // Container uyumluluğu için gerekirse yeniden kodla (kasmayı önler):
         '--recode-video', container,
         // Ağ hataları için otomatik yeniden deneme:
