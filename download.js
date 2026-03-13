@@ -246,19 +246,17 @@ function buildFormatString(height, container) {
     const h = height ? `[height<=${height}]` : '';
 
     if (container === 'mp4') {
-        // YouTube artık ses akışını çoğunlukla webm/opus olarak gönderiyor.
-        // Bu nedenle m4a zorunluluğunu kaldırıp `bestaudio` kullanıyoruz;
-        // ffmpeg mp4 container'ına yazarken sesi otomatik aac'ye dönüştürür.
+        // MP4 için en uyumlu codec H.264 (avc1)'dir. 
+        // Eğer kaynakta yoksa bile --recode-video ile dönüştüreceğiz.
         return [
-            // 1. Tercih: h264 video + m4a ses (tam native mp4, re-encode yok)
+            // 1. Tercih: Native H.264 video + m4a ses
             `bestvideo[ext=mp4]${h}[vcodec^=avc]+bestaudio[ext=m4a]`,
-            // 2. Tercih: h264 video + herhangi bir ses (ffmpeg codec'i düzeltir)
-            `bestvideo[ext=mp4]${h}[vcodec^=avc]+bestaudio`,
-            // 3. Tercih: herhangi bir mp4 video + herhangi bir ses
+            // 2. Tercih: Herhangi bir H.264 video + herhangi bir ses
+            `bestvideo${h}[vcodec^=avc]+bestaudio`,
+            // 3. Tercih: Herhangi bir mp4 video + herhangi bir ses
             `bestvideo[ext=mp4]${h}+bestaudio`,
-            // 4. Tercih: kalite sınırlı herhangi bir video + herhangi bir ses
+            // 4. Fallback: En iyi video + en iyi ses (recode-video ile mp4'e çevrilecek)
             `bestvideo${h}+bestaudio`,
-            // 5. Son çare: hepsi birleşik akış
             `best${h}`,
             `best`,
         ].join('/');
@@ -375,14 +373,18 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         // Birden fazla ses/video akışının doğru seçilmesi için:
         '--audio-multistreams',
         '--video-multistreams',
+        // Takılmaları önlemek için akıcı başlatma ve ses senkronizasyonu:
+        '--ffmpeg-params', '-movflags +faststart -async 1',
+        // Container uyumluluğu için gerekirse yeniden kodla (kasmayı önler):
+        '--recode-video', container,
         // Ağ hataları için otomatik yeniden deneme:
         '--retries', '5',
         '--fragment-retries', '5',
     ];
 
-    // MP4 seçildiğinde ses codec'ini AAC'ye zorla (webm/opus ses varsa ffmpeg dönüştürür)
+    // MP4 seçildiğinde ses codec'ini AAC'ye zorla
     if (container === 'mp4') {
-        args.push('--postprocessor-args', 'ffmpeg:-c:v copy -c:a aac -strict experimental');
+        args.push('--postprocessor-args', 'ffmpeg:-c:a aac');
     }
 
     if (!isPlaylist) args.push('--no-playlist');
