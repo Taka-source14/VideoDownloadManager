@@ -362,14 +362,15 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         '--fragment-retries', '5',
     ];
 
-    // MP4 için "Sıfır Kasma" - Ultra Uyumluluk Ayarları
+    // MP4 için "Ultra Akıcı" - Zorunlu 60 FPS ve VBV Denetimi
     if (container === 'mp4') {
-        // -vsync cfr: Kare hızını sabitleyerek kasmayı önler
-        // -af aresample=async=1: Sesi görüntüye milisaniyelik hassasiyetle kilitler
-        // -crf 20: Kalite ve dosya boyutu dengesi
-        args.push('--postprocessor-args', 'ffmpeg:-c:v libx264 -preset medium -crf 20 -profile:v high -level:v 4.1 -pix_fmt yuv420p -vsync cfr -af aresample=async=1 -c:a aac -b:a 192k -movflags +faststart');
+        // -r 60: Zorunlu 60 FPS
+        // -vsync cfr: Sabit Kare Hızı (Pürüzsüz görüntü)
+        // -maxrate 12M -bufsize 24M: Bitrate dalgalanmalarını önleyen tamponlama
+        // -crf 18: Yüksek kalite koruması
+        args.push('--postprocessor-args', 'ffmpeg:-c:v libx264 -preset medium -crf 18 -r 60 -profile:v high -level:v 4.1 -pix_fmt yuv420p -vsync cfr -maxrate 12M -bufsize 24M -af aresample=async=1 -c:a aac -b:a 192k -movflags +faststart');
     } else {
-        // Diğer formatlar için temel akıcı başlatma
+        // Diğer formatlar için de senkronizasyon ve hızlı başlatma
         args.push('--postprocessor-args', 'ffmpeg:-movflags +faststart -af aresample=async=1');
     }
 
