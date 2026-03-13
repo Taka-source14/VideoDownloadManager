@@ -239,50 +239,32 @@ async function selectFormatAndQuality() {
 }
 
 // Build a codec-compatible yt-dlp format string for the chosen container.
-// Strategy: giderek gevşeyen fallback zinciri — her adımda hem video hem ses
-// garantilenmeye çalışılır. Hiçbir codec kısıtlaması uymasa bile son fallback
-// her zaman `bestvideo+bestaudio` veya `best` ile tamamlanır.
+// Strategy: Önce seçilen çözünürlüğü (height) korumaya odaklanır.
+// Container uyumsuzluğu durumunda yt-dlp/ffmpeg otomatik re-encode yapacaktır.
 function buildFormatString(height, container) {
     const h = height ? `[height<=${height}]` : '';
 
     if (container === 'mp4') {
-        // MP4 için en uyumlu codec H.264 (avc1)'dir. 
-        // Eğer kaynakta yoksa bile --recode-video ile dönüştüreceğiz.
         return [
-            // 1. Tercih: Native H.264 video + m4a ses
-            `bestvideo[ext=mp4]${h}[vcodec^=avc]+bestaudio[ext=m4a]`,
-            // 2. Tercih: Herhangi bir H.264 video + herhangi bir ses
-            `bestvideo${h}[vcodec^=avc]+bestaudio`,
-            // 3. Tercih: Herhangi bir mp4 video + herhangi bir ses
-            `bestvideo[ext=mp4]${h}+bestaudio`,
-            // 4. Fallback: En iyi video + en iyi ses (recode-video ile mp4'e çevrilecek)
+            // 1. Tercih: Seçilen yükseklikteki en iyi video + en iyi ses
             `bestvideo${h}+bestaudio`,
+            // 2. Tercih: Kalite limitli hepsi birleşik akış
             `best${h}`,
+            // 3. Son çare: Mevcut en iyisi
             `best`,
         ].join('/');
     }
 
     if (container === 'webm') {
-        // WebM için vp9/av1 + opus tercih edilir ama zorunlu değil.
-        // Opus yoksa ffmpeg webm container'a yazarken sesi dönüştürür.
         return [
-            // 1. Tercih: native webm video + webm/opus ses
-            `bestvideo[ext=webm]${h}[vcodec^=vp]+bestaudio[ext=webm]`,
-            // 2. Tercih: herhangi bir webm video + herhangi bir ses
-            `bestvideo[ext=webm]${h}+bestaudio`,
-            // 3. Tercih: vp9/av1 video + herhangi bir ses
-            `bestvideo[vcodec^=vp]${h}+bestaudio`,
-            // 4. Tercih: av1 video + herhangi bir ses
-            `bestvideo[vcodec^=av01]${h}+bestaudio`,
-            // 5. Tercih: kalite sınırlı herhangi bir video + herhangi bir ses
+            `bestvideo[ext=webm]${h}+bestaudio[ext=webm]`,
             `bestvideo${h}+bestaudio`,
-            // 6. Son çare: hepsi birleşik akış
             `best${h}`,
             `best`,
         ].join('/');
     }
 
-    // MKV: en esnek container — codec kısıtlaması yok, kalite önce gelir
+    // MKV: en esnek container
     return [
         `bestvideo${h}+bestaudio`,
         `best${h}`,
@@ -382,9 +364,9 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         '--fragment-retries', '5',
     ];
 
-    // MP4 seçildiğinde ses codec'ini AAC'ye zorla
+    // MP4 seçildiğinde profesyonel High Profile ve Level 4.1 kodlama kullan (Sıfır Kasma)
     if (container === 'mp4') {
-        args.push('--postprocessor-args', 'ffmpeg:-c:a aac');
+        args.push('--postprocessor-args', 'ffmpeg:-c:v libx264 -profile:v high -level:v 4.1 -pix_fmt yuv420p -crf 18 -c:a aac');
     }
 
     if (!isPlaylist) args.push('--no-playlist');
