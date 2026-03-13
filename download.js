@@ -355,8 +355,6 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         // Birden fazla ses/video akışının doğru seçilmesi için:
         '--audio-multistreams',
         '--video-multistreams',
-        // Takılmaları önlemek için akıcı başlatma ve ses senkronizasyonu:
-        '--postprocessor-args', 'ffmpeg:-movflags +faststart -async 1',
         // Container uyumluluğu için gerekirse yeniden kodla (kasmayı önler):
         '--recode-video', container,
         // Ağ hataları için otomatik yeniden deneme:
@@ -364,9 +362,15 @@ async function runDownload({ url, container, height, outputDir, isPlaylist }) {
         '--fragment-retries', '5',
     ];
 
-    // MP4 seçildiğinde profesyonel High Profile ve Level 4.1 kodlama kullan (Sıfır Kasma)
+    // MP4 için "Sıfır Kasma" - Ultra Uyumluluk Ayarları
     if (container === 'mp4') {
-        args.push('--postprocessor-args', 'ffmpeg:-c:v libx264 -profile:v high -level:v 4.1 -pix_fmt yuv420p -crf 18 -c:a aac');
+        // -vsync cfr: Kare hızını sabitleyerek kasmayı önler
+        // -af aresample=async=1: Sesi görüntüye milisaniyelik hassasiyetle kilitler
+        // -crf 20: Kalite ve dosya boyutu dengesi
+        args.push('--postprocessor-args', 'ffmpeg:-c:v libx264 -preset medium -crf 20 -profile:v high -level:v 4.1 -pix_fmt yuv420p -vsync cfr -af aresample=async=1 -c:a aac -b:a 192k -movflags +faststart');
+    } else {
+        // Diğer formatlar için temel akıcı başlatma
+        args.push('--postprocessor-args', 'ffmpeg:-movflags +faststart -af aresample=async=1');
     }
 
     if (!isPlaylist) args.push('--no-playlist');
